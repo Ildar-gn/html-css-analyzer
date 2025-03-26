@@ -1,0 +1,8 @@
+node_modules/
+*.log
+*.tmp
+*.bak
+unused-classes-report.txt
+.env
+.DS_Store
+Thumbs.db

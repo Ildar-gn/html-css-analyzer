@@ -1,0 +1,23 @@
+{
+	"name": "html-css-analyzer",
+	"version": "1.0.0",
+	"description": "Tool to analyze and clean HTML/CSS classes",
+	"main": "lib/index.js",
+	"bin": {
+		"html-css-analyzer": "./bin/html-css-analyzer.js"
+	},
+	"scripts": {
+		"test": "echo \"No tests yet\" && exit 0"
+	},
+	"dependencies": {
+		"purgecss": "^7.0.2"
+	},
+	"keywords": [
+		"html",
+		"css",
+		"cleanup",
+		"analyzer"
+	],
+	"author": "Ildar Gnn",
+	"license": "MIT"
+}
