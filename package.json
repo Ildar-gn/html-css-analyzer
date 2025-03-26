@@ -1,6 +1,6 @@
 {
 	"name": "html-css-analyzer",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Tool to analyze and clean HTML/CSS classes",
 	"main": "lib/index.js",
 	"bin": {
