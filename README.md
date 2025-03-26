@@ -1,25 +1,62 @@
 # HTML-CSS Analyzer
 
-A tool to analyze and clean HTML/CSS classes in your project. Detects unused classes in HTML not present in CSS selectors and empty classes in CSS.
+Инструмент для анализа и очистки классов в HTML и CSS. Обнаруживает неиспользуемые классы в HTML, которых нет в селекторах CSS, и пустые классы в CSS.
 
-## Installation
+## Установка
 
-Install `locally` or `globally` via npm (includes all required dependencies):
+Установите `локально` или `глобально` через npm (все необходимые зависимости включены):
 
 ```bash
 npm install html-css-analyzer
-# or
+# или
 npm install -g html-css-analyzer
 ```
 
-## Usage
-Run commands via CLI:
-```bash
-html-css-analyzer find-unused
-html-css-analyzer remove-empty
-html-css-analyzer remove-unused
+## Конфигурация
+По умолчанию будут использоваться пути `*.html` и `*/*.css`.
+
+Но можно настроить пути к HTML и CSS файлам в `purgecss.config.js`, создав его в корне проекта. Поддерживаются как точные имена файлов, так и glob-шаблоны:
+
+- Точные имена файлов:
+    - Укажите конкретные файлы, если хотите ограничить анализ.
+- Glob-шаблоны:
+    - `*.html` — все HTML-файлы в корне.
+    - `*/*.css` — все CSS-файлы в подпапках первого уровня.
+    - `**/*.html` — все HTML-файлы в проекте, включая подпапки.
+    - `**/*.css` — все CSS-файлы в проекте, включая подпапки.
+
+### Примеры конфигурации в `purgecss.config.js`
+Для этого нужно создать в корне проекта файл `purgecss.config.js`
+##### 1. Конкретные имена файлов:
+```javascript
+module.exports = {
+  content: ['index.html', 'about.html', 'contact.html'],
+  css: ['styles/main.css', 'styles/extra.css']
+};
 ```
-Or in a project with local install, add to `package.json`:
+- Анализируются только указанные HTML-файлы (`'index.html'`, `'about.html'`, `'contact.html'`) и CSS-файлы (`'styles/main.css'`, `'styles/extra.css'`).
+
+##### 2. Универсальные шаблоны:
+```javascript
+module.exports = {
+  content: ['*.html'],
+  css: ['*/*.css']
+};
+```
+- Анализируются все HTML-файлы в корне (например, `'index.html'`, `'about.html'`) и все CSS-файлы в подпапках первого уровня (например, `'styles/main.css'`, `'dist/output.css'`).
+
+##### 3. Комбинация шаблонов и имён:
+```javascript
+module.exports = {
+  content: ['index.html', '*.html', '!test.html'],
+  css: ['styles/main.css', '**/*.css', '!styles/temp.css']
+};
+```
+- Анализируются `'index.html'`, все HTML-файлы в корне `'*.html'`, кроме `'!test.html'`, и `'styles/main.css'` плюс все CSS-файлы в проекте `'**/*.css'`, кроме `'!styles/temp.css'`.
+- Для исключения файлов используйте `!`.
+
+## Использование
+Добавьте в package.json вашего проекта для запуска команд:
 ```json
 {
   "scripts": {
@@ -29,69 +66,31 @@ Or in a project with local install, add to `package.json`:
   }
 }
 ```
+
+## Команды
 ```bash
+# Запуск команд, если установлены в package.json:
 npm run find-unused
 npm run remove-empty
 npm run remove-unused
+
+# Запуск команд через CLI (Опционально):
+html-css-analyzer find-unused
+html-css-analyzer remove-empty
+html-css-analyzer remove-unused
 ```
-
-## Configuration
-By default, the paths `*.html` and `*/*.css` will be used.
-
-However, you can customize the paths to HTML and CSS files by creating a `purgecss.config.js` file in your project root. Both specific file names and glob patterns are supported:
-
-- Specific file names:
-	- Specify exact files to limit the analysis.
-
-- Glob patterns:
-	- `*.html` — all HTML files in the root directory.
-	- `*/*.css` — all CSS files in first-level subdirectories.
-	- `**/*.html` — all HTML files in the project, including subdirectories.
-	- `**/*.css` — all CSS files in the project, including subdirectories.
-
-### Configuration Examples
-##### 1. Specific file names:
-```javascript
-module.exports = {
-  content: ['index.html', 'about.html', 'contact.html'],
-  css: ['styles/main.css', 'styles/extra.css']
-};
-```
-- Analyzes only the specified HTML files (`'index.html'`, `'about.html'`, `'contact.html'`) and CSS files (`'styles/main.css'`, `'styles/extra.css'`).
-
-##### 2. Universal patterns:
-```javascript
-module.exports = {
-  content: ['*.html'],
-  css: ['*/*.css']
-};
-```
-- Analyzes all HTML files in the root (e.g., `'index.html'`, `'about.html'`) and all CSS files in first-level subdirectories (e.g., `'styles/main.css'`, `'dist/output.css'`).
-
-##### 3. Combination of patterns and names:
-```javascript
-module.exports = {
-  content: ['index.html', '*.html', '!test.html'],
-  css: ['styles/main.css', '**/*.css', '!styles/temp.css']
-};
-```
-- Analyzes `'index.html'`, all HTML files in the root except `'!test.html'`, and `'styles/main.css'` plus all CSS files in the project except `'!styles/temp.css'`.
-- Use `!` to exclude specific files.
-
-
-## Commands
 1. `find-unused`
-Finds classes in HTML not present in CSS selectors and empty classes across all specified CSS files. Saves report to `unused-classes-report.txt`.
+Находит классы в HTML, отсутствующие в селекторах CSS, и пустые классы во всех указанных CSS-файлах. Сохраняет отчёт в `unused-classes-report.txt`.
 
 2. `remove-empty`
-Removes empty classes from all CSS files specified in the config. Creates a `.bak` backup for each file.
+Удаляет пустые классы из всех CSS-файлов, указанных в конфигурации. Создаёт резервную копию `.bak` для каждого файла.
 
 3. `remove-unused`
-Removes unused classes from HTML based on `unused-classes-report.txt`.
+Удаляет неиспользуемые классы из HTML на основе отчёта `unused-classes-report.txt`.
 
 
-## Example "Before and After"
-#### Before:
+## Пример «До и После»
+#### До:
 ##### 1. index.html:
 ```html
 <div class="button unused-class">Test</div>
@@ -119,17 +118,17 @@ Removes unused classes from HTML based on `unused-classes-report.txt`.
 ```
 ##### 4. Run:
 ```bash
-# Run commands via CLI:
+# Запуск команд через CLI:
 html-css-analyzer find-unused
 html-css-analyzer remove-empty
 html-css-analyzer remove-unused
 
-# Run commands via npm:
+# Запуск команд через npm если установлены в package.json:
 npm run find-unused
 npm run remove-empty
 npm run remove-unused
 ```
-#### After:
+#### После:
 ##### 1. index.html:
 ```html
 <div class="button">Test</div>
@@ -147,3 +146,4 @@ npm run remove-unused
   font-size: 16px;
 }
 ```
+

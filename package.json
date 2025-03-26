@@ -18,6 +18,14 @@
 		"cleanup",
 		"analyzer"
 	],
-	"author": "Ildar Gnn",
-	"license": "MIT"
+	"author": "Ildar Gnn <iledar@me.com>",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ildar-gn/html-css-analyzer.git"
+	},
+	"homepage": "https://github.com/ildar-gn/html-css-analyzer",
+	"bugs": {
+		"url": "https://github.com/ildar-gn/html-css-analyzer/issues"
+	}
 }
