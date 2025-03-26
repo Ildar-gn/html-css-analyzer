@@ -7,7 +7,7 @@
 Установите `локально` или `глобально` через npm (все необходимые зависимости включены):
 
 ```bash
-npm install html-css-analyzer
+npm install html-css-analyzer -D
 # или
 npm install -g html-css-analyzer
 ```

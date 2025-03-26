@@ -7,7 +7,7 @@ A tool to analyze and clean HTML/CSS classes in your project. Detects unused cla
 Install `locally` or `globally` via npm (includes all required dependencies):
 
 ```bash
-npm install html-css-analyzer
+npm install html-css-analyzer -D
 # or
 npm install -g html-css-analyzer
 ```
